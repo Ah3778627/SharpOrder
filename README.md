@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+# Complete Python Course Outline
+
+## Course Overview
+A comprehensive guide to learning Python from beginner to intermediate level, covering fundamental concepts, data structures, functions, and practical applications.
+
+"""Resolved merge: kept the full course README content (local) and removed
+the short remote README that caused the conflict."""
+
 # Complete Python Course Outline
 
 ## Course Overview
