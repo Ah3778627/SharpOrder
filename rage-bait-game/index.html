@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Rage Bait - Practice Mode Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="ui">
+      <div id="controls">
+        <select id="levelSelect"></select>
+        <button id="startBtn">Start</button>
+        <button id="restartBtn">Restart</button>
+        <label><input type="checkbox" id="practiceToggle"> Practice Mode</label>
+        <span id="status">Ready</span>
+      </div>
+      <div id="tips">Controls: Click or press Space to jump. Practice mode enables checkpoints.</div>
+    </div>
+    <canvas id="game" width="1280" height="640"></canvas>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
