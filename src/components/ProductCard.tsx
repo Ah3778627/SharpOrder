@@ -4,8 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/lib/products';
-import { useCartStore } from '@/lib/store';
-import { Star, ShoppingCart, Check } from 'lucide-react';
+import { useCartStore, useWishlistStore } from '@/lib/store';
+import { useToastStore } from '@/components/Toast';
+import { Star, ShoppingCart, Check, Heart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -14,22 +15,39 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const [isAdded, setIsAdded] = useState(false);
   const addToCart = useCartStore((state) => state.addToCart);
+  const addToast = useToastStore((state) => state.addToast);
+  const addToWishlist = useWishlistStore((state) => state.addToWishlist);
+  const removeFromWishlist = useWishlistStore((state) => state.removeFromWishlist);
+  const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
 
   const handleAddToCart = () => {
     addToCart(product, 1);
     setIsAdded(true);
+    addToast(`${product.name} added to cart!`, 'success');
     setTimeout(() => setIsAdded(false), 2000);
   };
 
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInWishlist) {
+      removeFromWishlist(product.id);
+      addToast(`${product.name} removed from wishlist`, 'info');
+    } else {
+      addToWishlist(product.id);
+      addToast(`${product.name} added to wishlist!`, 'success');
+    }
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative group">
       <Link href={`/product/${product.id}`}>
         <div className="relative h-48 w-full overflow-hidden bg-gray-200">
           <Image
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover hover:scale-110 transition-transform duration-300"
+            className="object-cover group-hover:scale-110 transition-transform duration-300"
           />
           {!product.inStock && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -43,6 +61,19 @@ export default function ProductCard({ product }: ProductCardProps) {
           >
             {product.category === 'electronics' ? '⚡ Electronics' : '🎩 Hat'}
           </span>
+          {/* Wishlist Button */}
+          <button
+            onClick={handleWishlist}
+            className="absolute top-2 left-2 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+            title={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+          >
+            <Heart
+              size={20}
+              className={`transition-colors ${
+                isInWishlist ? 'fill-red-500 text-red-500' : 'text-gray-400'
+              }`}
+            />
+          </button>
         </div>
       </Link>
 
@@ -79,9 +110,10 @@ export default function ProductCard({ product }: ProductCardProps) {
               isAdded
                 ? 'bg-green-500 text-white'
                 : product.inStock
-                  ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  ? 'bg-blue-500 text-white hover:bg-blue-600'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
+            title={product.inStock ? 'Add to cart' : 'Out of stock'}
           >
             {isAdded ? <Check size={20} /> : <ShoppingCart size={20} />}
           </button>

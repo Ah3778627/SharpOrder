@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useCartStore } from '@/lib/store';
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X, Heart } from 'lucide-react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,6 +37,13 @@ export default function Header() {
 
           {/* Cart & Mobile Menu */}
           <div className="flex items-center gap-4">
+            <Link
+              href="/wishlist"
+              className="relative p-2 text-gray-700 hover:text-red-600 transition"
+              title="Wishlist"
+            >
+              <Heart size={24} />
+            </Link>
             <Link
               href="/cart"
               className="relative p-2 text-gray-700 hover:text-blue-600 transition"
@@ -89,6 +96,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               All Products
+            </Link>
+            <Link
+              href="/wishlist"
+              className="block text-gray-700 hover:text-red-600 transition"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Wishlist
             </Link>
           </div>
         )}

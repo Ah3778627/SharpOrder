@@ -4,24 +4,54 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/lib/store';
-import { Trash2, Plus, Minus, ArrowLeft, ShoppingBag } from 'lucide-react';
+import { useToastStore } from '@/components/Toast';
+import { Trash2, Plus, Minus, ArrowLeft, ShoppingBag, Tag } from 'lucide-react';
 
 export default function CartPage() {
   const items = useCartStore((state) => state.items);
+  const couponCode = useCartStore((state) => state.couponCode);
+  const couponDiscount = useCartStore((state) => state.couponDiscount);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const applyCoupon = useCartStore((state) => state.applyCoupon);
+  const removeCoupon = useCartStore((state) => state.removeCoupon);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice());
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const addToast = useToastStore((state) => state.addToast);
 
-  const subtotal = getTotalPrice;
-  const shipping = subtotal > 50 ? 0 : 9.99;
-  const tax = subtotal * 0.1;
-  const total = subtotal + shipping + tax;
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [couponInput, setCouponInput] = useState('');
+
+  const subtotal = items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  const discountAmount = subtotal * couponDiscount;
+  const afterDiscount = subtotal - discountAmount;
+  const shipping = afterDiscount > 50 ? 0 : 9.99;
+  const tax = afterDiscount * 0.1;
+  const total = afterDiscount + shipping + tax;
+
+  const handleApplyCoupon = () => {
+    if (!couponInput.trim()) {
+      addToast('Please enter a coupon code', 'error');
+      return;
+    }
+
+    if (applyCoupon(couponInput)) {
+      addToast(`Coupon "${couponInput.toUpperCase()}" applied successfully!`, 'success');
+      setCouponInput('');
+    } else {
+      addToast('Invalid coupon code', 'error');
+      setCouponInput('');
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    removeCoupon();
+    addToast('Coupon removed', 'info');
+  };
 
   const handleCheckout = () => {
     setIsCheckingOut(true);
     setTimeout(() => {
-      alert('Thank you for your order! This is a demo store. In production, this would process payment.');
+      addToast('Thank you for your order!', 'success');
       setIsCheckingOut(false);
     }, 2000);
   };
@@ -123,6 +153,45 @@ export default function CartPage() {
               </div>
             ))}
           </div>
+
+          {/* Coupon Section */}
+          <div className="mt-6 bg-white rounded-lg shadow p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Tag size={20} className="text-blue-600" />
+              <h3 className="text-lg font-semibold text-gray-900">Have a coupon?</h3>
+            </div>
+            {couponCode ? (
+              <div className="flex items-center gap-3 bg-green-50 p-4 rounded-lg border border-green-200">
+                <div className="flex-grow">
+                  <p className="font-semibold text-green-700">Coupon Applied: {couponCode}</p>
+                  <p className="text-sm text-green-600">Save {(couponDiscount * 100).toFixed(0)}%</p>
+                </div>
+                <button
+                  onClick={handleRemoveCoupon}
+                  className="text-red-600 hover:text-red-700 font-semibold"
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Enter coupon code (Try: SAVE10, SAVE20, WELCOME)"
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleApplyCoupon()}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  onClick={handleApplyCoupon}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
+                >
+                  Apply
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Order Summary */}
@@ -135,6 +204,12 @@ export default function CartPage() {
                 <span className="text-gray-600">Subtotal</span>
                 <span className="font-semibold">${subtotal.toFixed(2)}</span>
               </div>
+              {couponDiscount > 0 && (
+                <div className="flex justify-between text-green-600">
+                  <span className="font-semibold">Discount ({(couponDiscount * 100).toFixed(0)}%)</span>
+                  <span className="font-bold">-${discountAmount.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
                 <span className="font-semibold">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>

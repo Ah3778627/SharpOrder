@@ -8,16 +8,29 @@ export interface CartItem {
 
 interface CartStore {
   items: CartItem[];
+  couponCode: string | null;
+  couponDiscount: number;
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
+  applyCoupon: (code: string) => boolean;
+  removeCoupon: () => void;
   getTotalPrice: () => number;
   getTotalItems: () => number;
 }
 
+// Valid coupon codes for demo
+const VALID_COUPONS: Record<string, number> = {
+  'SAVE10': 0.10,
+  'SAVE20': 0.20,
+  'WELCOME': 0.15,
+};
+
 export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
+  couponCode: null,
+  couponDiscount: 0,
 
   addToCart: (product, quantity) => {
     set((state) => {
@@ -57,14 +70,61 @@ export const useCartStore = create<CartStore>((set, get) => ({
   },
 
   clearCart: () => {
-    set({ items: [] });
+    set({ items: [], couponCode: null, couponDiscount: 0 });
+  },
+
+  applyCoupon: (code) => {
+    const discount = VALID_COUPONS[code.toUpperCase()];
+    if (discount) {
+      set({ couponCode: code.toUpperCase(), couponDiscount: discount });
+      return true;
+    }
+    return false;
+  },
+
+  removeCoupon: () => {
+    set({ couponCode: null, couponDiscount: 0 });
   },
 
   getTotalPrice: () => {
-    return get().items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    const subtotal = get().items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    return subtotal * (1 - get().couponDiscount);
   },
 
   getTotalItems: () => {
     return get().items.reduce((total, item) => total + item.quantity, 0);
+  },
+}));
+
+// Wishlist store
+interface WishlistStore {
+  items: string[];
+  addToWishlist: (productId: string) => void;
+  removeFromWishlist: (productId: string) => void;
+  isInWishlist: (productId: string) => boolean;
+  clearWishlist: () => void;
+}
+
+export const useWishlistStore = create<WishlistStore>((set, get) => ({
+  items: [],
+
+  addToWishlist: (productId) => {
+    set((state) => ({
+      items: [...new Set([...state.items, productId])],
+    }));
+  },
+
+  removeFromWishlist: (productId) => {
+    set((state) => ({
+      items: state.items.filter((id) => id !== productId),
+    }));
+  },
+
+  isInWishlist: (productId) => {
+    return get().items.includes(productId);
+  },
+
+  clearWishlist: () => {
+    set({ items: [] });
   },
 }));
