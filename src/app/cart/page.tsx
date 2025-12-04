@@ -83,7 +83,7 @@ export default function CartPage() {
                   >
                     {item.product.name}
                   </Link>
-                  <p className="text-gray-600 text-sm mt-1">{item.product.description.substring(0, 60)}...</p>
+                  <p className="text-gray-600 text-sm mt-1">{(item.product.description || 'No description').substring(0, 60)}...</p>
                   <p className="text-blue-600 font-bold mt-2">${item.product.price.toFixed(2)}</p>
                 </div>
 

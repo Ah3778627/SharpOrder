@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure the Inter font variable is used */
+:root{
+  --font-inter: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto;
+}
+
+/* Form controls */
+.input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(15,23,42,0.06);
+  background: #fff;
+  outline: none;
+  box-shadow: none;
+}
+.input:focus{
+  border-color: rgba(15,23,42,0.12);
+  box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.btn--primary{ background: var(--accent); color: #fff; }
+.btn--ghost{ background: transparent; color: var(--accent); border: 1px solid rgba(15,23,42,0.06); }
+
+/* Minimalist theme tokens */
+:root{
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --accent: #0f172a; /* deep slate */
+  --card: #f8fafc;
+  --glass: rgba(15,23,42,0.04);
+}
+
+body{
+  background: var(--bg);
+  color: var(--accent);
+}
+
+.card{
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+  padding: 1rem;
+}
+
+.btn-primary{
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+}
+
+.muted{ color: var(--muted); }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Animations */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutToTop {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.animate-slide-in {
+  animation: slideInFromTop 0.3s ease-out;
+}
+
+.animate-slide-out {
+  animation: slideOutToTop 0.3s ease-out;
+}

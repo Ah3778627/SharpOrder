@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/super-admin/layout,_N_T_/super-admin/consumers/layout,_N_T_/super-admin/consumers/page,_N_T_/super-admin/consumers"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/super-admin/consumers/__PAGE__",
+    "/super-admin/consumers",
+    "/super-admin",
+    "/_index",
+    "/_head"
+  ]
+}

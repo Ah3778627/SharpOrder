@@ -13,35 +13,57 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">Welcome to SharpOrder</h1>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Discover premium quality electronics and exquisite hand-woven hats.
-            Shop with confidence and style.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/products"
-              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center justify-center gap-2"
-            >
-              Shop Now <ArrowRight size={20} />
-            </Link>
-            <Link
-              href="/products?category=electronics"
-              className="bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-400 transition"
-            >
-              Electronics
-            </Link>
+      <section className="relative overflow-hidden py-20 sm:py-32">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-5xl sm:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+                Shop Premium Products with Ease
+              </h1>
+              <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-xl">
+                Discover curated electronics and exquisite hand-woven hats. Shop with confidence, 
+                style, and seamless checkout.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/products"
+                  className="inline-flex items-center justify-center px-8 py-3 rounded-lg font-semibold bg-slate-900 text-white hover:bg-slate-800 transition gap-2"
+                >
+                  Shop Now <ArrowRight size={20} />
+                </Link>
+                <div className="flex gap-2">
+                  <Link
+                    href="/auth"
+                    className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold border-2 border-slate-900 text-slate-900 hover:bg-slate-50 transition"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth?mode=signup"
+                    className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold bg-slate-100 text-slate-900 hover:bg-slate-200 transition"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <div className="relative w-full h-80 bg-gradient-to-br from-slate-300 to-slate-400 rounded-2xl shadow-lg overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-6xl">🛍️</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Featured Products</h2>
-          <Link href="/products" className="text-blue-600 hover:text-blue-700 flex items-center gap-2">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex justify-between items-center mb-12">
+          <h2 className="text-4xl font-bold text-slate-900">Featured Products</h2>
+          <Link href="/products" className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-semibold transition">
             View All <ArrowRight size={20} />
           </Link>
         </div>
@@ -53,15 +75,15 @@ export default function Home() {
       </section>
 
       {/* Electronics Section */}
-      <section className="bg-gray-50 py-12">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex justify-between items-start mb-12">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900">⚡ Electronics</h2>
-              <p className="text-gray-600 mt-2">High-quality tech products for your needs</p>
+              <h2 className="text-4xl font-bold text-slate-900">⚡ Electronics</h2>
+              <p className="text-slate-600 mt-2 text-lg">High-quality tech products for your needs</p>
             </div>
-            <Link href="/products?category=electronics" className="text-blue-600 hover:text-blue-700">
-              View All
+            <Link href="/products?category=electronics" className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-semibold transition">
+              View All <ArrowRight size={20} />
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -73,15 +95,15 @@ export default function Home() {
       </section>
 
       {/* Hats Section */}
-      <section className="py-12">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex justify-between items-start mb-12">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900">🎩 Hand-Woven Hats</h2>
-              <p className="text-gray-600 mt-2">Exquisite handcrafted hats for style and comfort</p>
+              <h2 className="text-4xl font-bold text-slate-900">🎩 Hand-Woven Hats</h2>
+              <p className="text-slate-600 mt-2 text-lg">Exquisite handcrafted hats for style and comfort</p>
             </div>
-            <Link href="/products?category=hats" className="text-blue-600 hover:text-blue-700">
-              View All
+            <Link href="/products?category=hats" className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-semibold transition">
+              View All <ArrowRight size={20} />
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -93,18 +115,18 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="bg-blue-50 py-12">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Why Shop With Us?</h2>
+          <h2 className="text-4xl font-bold text-slate-900 text-center mb-16">Why Shop With Us?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { title: 'Free Shipping', desc: 'On orders over $50' },
               { title: '30-Day Returns', desc: 'Hassle-free returns policy' },
               { title: '24/7 Support', desc: 'Customer support team ready to help' },
             ].map((feature, i) => (
-              <div key={i} className="text-center p-6 bg-white rounded-lg shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.desc}</p>
+              <div key={i} className="p-8 bg-white rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition">
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">{feature.title}</h3>
+                <p className="text-slate-600">{feature.desc}</p>
               </div>
             ))}
           </div>

@@ -1,10 +1,13 @@
 import { create } from 'zustand';
 
 export interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    description?: string;
+  };
   quantity: number;
 }
 
@@ -19,6 +22,7 @@ interface CartState {
   applyCoupon: (code: string) => void;
   removeCoupon: () => void;
   getTotalPrice: () => number;
+  getTotalItems: () => number;
 }
 
 const VALID_COUPONS: { [key: string]: number } = {
@@ -34,11 +38,11 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   addToCart: (product, quantity) => {
     set((state) => {
-      const existingItem = state.items.find((item) => item.id === product.id);
+      const existingItem = state.items.find((item) => item.product.id === product.id);
       if (existingItem) {
         return {
           items: state.items.map((item) =>
-            item.id === product.id
+            item.product.id === product.id
               ? { ...item, quantity: item.quantity + quantity }
               : item
           ),
@@ -47,7 +51,16 @@ export const useCartStore = create<CartState>((set, get) => ({
       return {
         items: [
           ...state.items,
-          { ...product, quantity, id: product.id || Math.random().toString() },
+          {
+            product: {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image: product.image || '/placeholder.png',
+              description: product.description,
+            },
+            quantity,
+          },
         ],
       };
     });
@@ -55,14 +68,14 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   removeFromCart: (productId) => {
     set((state) => ({
-      items: state.items.filter((item) => item.id !== productId),
+      items: state.items.filter((item) => item.product.id !== productId),
     }));
   },
 
   updateQuantity: (productId, quantity) => {
     set((state) => ({
       items: state.items.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
+        item.product.id === productId ? { ...item, quantity } : item
       ),
     }));
   },
@@ -80,9 +93,14 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   getTotalPrice: () => {
     const state = get();
-    const subtotal = state.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = state.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
     const discountAmount = (subtotal * state.couponDiscount) / 100;
     return subtotal - discountAmount;
+  },
+
+  getTotalItems: () => {
+    const state = get();
+    return state.items.reduce((sum, item) => sum + item.quantity, 0);
   },
 }));
 

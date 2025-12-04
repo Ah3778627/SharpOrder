@@ -10,28 +10,28 @@ export default function Header() {
   const totalItems = useCartStore((state) => state.getTotalItems());
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-white sticky top-0 z-50 border-b border-transparent">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="text-2xl font-bold text-blue-600">⚡</div>
-            <span className="text-xl font-bold text-gray-800 hidden sm:inline">SharpOrder</span>
+          <Link href="/" className="flex items-center gap-3">
+            <div className="text-2xl font-bold text-black">⚡</div>
+            <span className="text-lg font-semibold text-black hidden sm:inline">SharpOrder</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link href="/" className="text-gray-700 hover:text-blue-600 transition">
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="/" className="text-sm text-muted hover:text-black transition">
               Home
             </Link>
-            <Link href="/products?category=electronics" className="text-gray-700 hover:text-blue-600 transition">
+            <Link href="/products?category=electronics" className="text-sm text-muted hover:text-black transition">
               Electronics
             </Link>
-            <Link href="/products?category=hats" className="text-gray-700 hover:text-blue-600 transition">
-              Hand-Woven Hats
+            <Link href="/products?category=hats" className="text-sm text-muted hover:text-black transition">
+              Hats
             </Link>
-            <Link href="/products" className="text-gray-700 hover:text-blue-600 transition">
-              All Products
+            <Link href="/products" className="text-sm text-muted hover:text-black transition">
+              Products
             </Link>
           </div>
 
@@ -39,7 +39,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <Link
               href="/cart"
-              className="relative p-2 text-gray-700 hover:text-blue-600 transition"
+              className="relative p-2 text-muted hover:text-black transition"
             >
               <ShoppingCart size={24} />
               {totalItems > 0 && (

@@ -22,9 +22,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-white rounded-xl overflow-hidden transition-shadow duration-300 card">
       <Link href={`/product/${product.id}`}>
-        <div className="relative h-48 w-full overflow-hidden bg-gray-200">
+        <div className="relative h-48 w-full overflow-hidden bg-gray-100">
           <Image
             src={product.image}
             alt={product.name}
@@ -32,28 +32,28 @@ export default function ProductCard({ product }: ProductCardProps) {
             className="object-cover hover:scale-110 transition-transform duration-300"
           />
           {!product.inStock && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Out of Stock</span>
+            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+              <span className="text-white font-semibold">Out of Stock</span>
             </div>
           )}
           <span
-            className={`absolute top-2 right-2 px-3 py-1 rounded-full text-white text-xs font-semibold ${
-              product.category === 'electronics' ? 'bg-blue-500' : 'bg-purple-500'
+            className={`absolute top-3 right-3 px-3 py-1 rounded-full text-white text-xs font-semibold ${
+              product.category === 'electronics' ? 'bg-black' : 'bg-gray-700'
             }`}
           >
-            {product.category === 'electronics' ? '⚡ Electronics' : '🎩 Hat'}
+            {product.category === 'electronics' ? 'Electronics' : 'Hat'}
           </span>
         </div>
       </Link>
 
       <div className="p-4">
         <Link href={`/product/${product.id}`}>
-          <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 cursor-pointer">
+          <h3 className="text-lg font-semibold text-black line-clamp-2 cursor-pointer">
             {product.name}
           </h3>
         </Link>
 
-        <p className="text-gray-600 text-sm mt-1 line-clamp-2">{product.description}</p>
+        <p className="text-muted text-sm mt-1 line-clamp-2">{product.description}</p>
 
         {/* Rating */}
         <div className="flex items-center gap-2 mt-3">
@@ -71,19 +71,19 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Price and Action */}
         <div className="mt-4 flex justify-between items-center">
-          <span className="text-2xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
+          <span className="text-2xl font-bold text-black">${product.price.toFixed(2)}</span>
           <button
             onClick={handleAddToCart}
             disabled={!product.inStock}
-            className={`p-2 rounded-full transition-all duration-300 ${
+            className={`p-2 rounded-lg transition-all duration-300 ${
               isAdded
                 ? 'bg-green-500 text-white'
                 : product.inStock
-                  ? 'bg-blue-600 text-white hover:bg-blue-700'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-black text-white hover:opacity-95'
+                  : 'bg-gray-100 text-muted cursor-not-allowed'
             }`}
           >
-            {isAdded ? <Check size={20} /> : <ShoppingCart size={20} />}
+            {isAdded ? <Check size={18} /> : <ShoppingCart size={18} />}
           </button>
         </div>
       </div>

@@ -20,7 +20,7 @@ export default function WishlistPage() {
     const product = products.find((p) => p.id === productId);
     if (!product) return;
     addToCart(product, 1);
-    addToast(`${product.name} added to cart`, "success");
+    addToast({ message: `${product.name} added to cart`, type: 'success', duration: 3000 });
   };
 
   return (
@@ -65,7 +65,7 @@ export default function WishlistPage() {
                     Add to cart
                   </button>
                   <button
-                    onClick={() => { removeFromWishlist(product.id); addToast(`${product.name} removed`, 'info'); }}
+                    onClick={() => { removeFromWishlist(product.id); addToast({ message: `${product.name} removed`, type: 'info', duration: 3000 }); }}
                     className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200"
                   >
                     Remove
